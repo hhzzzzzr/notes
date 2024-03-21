@@ -16,3 +16,11 @@
 
 + 特殊的不存在 和 不存不一样
 + 一个广义的数
+
+## 无穷级数
+
+![image-20240313145616188](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20240313145616188.png)
+
+![image-20240313145639513](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20240313145639513.png)
+
+![image-20240313145700868](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20240313145700868.png)
