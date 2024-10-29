@@ -1,0 +1,261 @@
+## 第七章 离散系统
+
+### 一、 概念
+
+$$
+e^*(t)=\sum_{n=0}^\infty e(nT)\delta(t-nT)\\
+E^*(s)=\sum_{n=0}^\infty e(nT)e^{-nTs   }
+$$
+
+**香农采样定理 **
+
+如果采样器的输入信号$e^t$具有有限带宽，并且有直到$\omega_h$的频率分量，则使信号$e(t)$圆满地从采样信号$e^*(t)$中恢复过来的采样周期$T$，满足以下条件:
+$$
+T\le\frac{2\pi}{2\omega_h}\Leftrightarrow\omega_s\ge2\omega_h
+$$
+**零阶保持器**
+
++ 数学表达式：$e(nT+\Delta t)=e(nT),0\le\Delta t\le T$
+
++ 零阶保持器传递函数（脉冲响应的拉氏变换）
+
+$$
+G_h(s)=\frac{1-e^{-Ts}}{s}
+$$
+
++ 零阶保持器的特性
+  1. 低通特性
+  2. 相角滞后特性
+  3. 时间滞后特性
+
+### 二、$z$变换
+
+#### （1） 定义
+
+$z=e^{Ts}=\delta(t-T)$
+
+1. 级数求和法
+   $$
+   E(z)=e(0)+e(T)z^{-1}+e(2T)z^{-2}+\cdots=\sum_{n=0}^\infty e(nT)z^{-n}
+   $$
+
+2. 部分分式法
+   $$
+   \begin{array}{|c|c|c|}
+   \hline 拉氏变换  E(s)  & 时间函数  e(t)  & Z变换  E(z)  \\
+   \hline   \mathrm{e}^{-n T s}  &  \delta(t-n T)  &  z^{-n}  \\
+   \hline  1 &  \delta(t)  & 1 \\
+   \hline   \frac{1}{s}  &  1(t)  &  \frac{z}{z-1}  \\
+   \hline  \frac{1}{s^{2}}  & t &  \frac{T z}{(z-1)^{2}}  \\
+   \hline  \frac{1}{s^{3}}  &  \frac{t^{2}}{2!}  &  \frac{T^{2} z(z+1)}{2(z-1)^{3}}  \\
+   \hline   \frac{1}{s-(1 / T) \ln a}  &  a^{t / T}  &  \frac{z}{z-a}  \\
+   \hline   \frac{1}{s+a}  &  \mathrm{e}^{-a t}  &  \frac{z}{z-e^{-a T}}  \\
+   \hline   \frac{1}{(s+a)^{2}}  &  t \mathrm{e}^{-a t}  &  \frac{T z e^{-a T}}{\left(z-e^{-a T}\right)^{2}}  \\
+   \hline   \frac{\omega}{s^{2}+\omega^{2}}  &  \sin \omega t  &  \frac{z \sin \omega T}{z^{2}-2 z \cos \omega T+1}  \\
+   \hline \frac{s}{s^{2}+\omega^{2}}  &  \cos \omega t  &  \frac{z(z-\cos\omega T)}{z^{2}-2 z \cos \omega T+1}  \\
+   \hline 
+   \end{array}
+   $$
+
+3. 留数法（反演积分法）
+   $$
+   从 s 到 z: \quad E(z)=\sum_{i=1}^{k} \operatorname{Res}\left[\left.E(s) \frac{z}{z-e^{s T}}\right]\right|_{s=s_{i}}\\ 
+    s_{i}  为单极点, 则  \left.\operatorname{Res}\left[E(s) \frac{z}{z-e^{s T}}\right]\right|_{s=s_{i}}=\lim _{s \rightarrow s_{i}}\left[\left(s-s_{i}\right) E(s) \frac{z}{z-e^{s T}}\right] \\  s_{i}  为 n 重极点, 则  \left.\operatorname{Res}\left[E(s) \frac{z}{z-e^{s T}}\right]\right|_{s=s_{i}}=\frac{1}{(n-1)!} \lim _{s \rightarrow s_{i}} \frac{d^{n-1}\left[\frac{s_{i}}{\left(s-s_{i}\right)^{n}} E(s) \frac{z}{z-e^{s T}}\right]}{d s^{n-1}}
+   $$
+
+#### （2） 性质
+
+1. 线性定理
+
+2. 复数位移定理
+   $$
+   Z[e^{\mp at}e(t)]=E(ze^{\pm at})
+   $$
+
+3. 初值定理
+   $$
+   e_{ss}(0)=\lim_{z\to\infty}(z-1)E(z)
+   $$
+
+4. 终值定理
+   $$
+   e_{ss}(\infty)=\lim_{z\to1}(z-1)E(z)
+   $$
+
+5. 实数位移定理
+   $$
+   Z[e(t-kT)]=z^{-k}E(z)\\
+   Z[e(t+kT)]=z^{k}[E(z)-\sum_{n=0}^{} e(nT)z^{-n}]
+   $$
+
+#### （3） $z$反变换【:star:】
+
+1. 长除法
+
+2. 部分分式法（查表法）
+
+   $E(z)$无重根，且$E(z)$的分子普遍有$z$
+
+3. 留数法（反演积分法）
+   $$
+   从 z 到 s: \quad E(s)=\sum_{i=1}^{k} \operatorname{Res}\left[\left.E(z) z^{n-1}\right]\right|_{z=z_{i}}\\ 
+    z_{i}  为单极点, 则  \left.\operatorname{Res}\left[E(z) z^{n-1}\right]\right|_{z=z_{i}}=\lim _{z \rightarrow z_{i}}\left[\left(z-z_{i}\right) E(z) z^{n-1}\right] \\  z_{i}  为 n 重极点, 则  \left.\operatorname{Res}\left[E(z) z^{n-1}\right]\right|_{z=z_{i}}=\frac{1}{(n-1)!} \lim _{z\rightarrow z_{i}} \frac{d^{n-1}\left[\frac{s_{i}}{\left(z-z_{i}\right)^{n}} E(z) z^{n-1}\right]}{d z^{n-1}}
+   $$
+
+#### （4） 局限性
+
+### 三、 数学模型
+
+#### （1） 差分方程
+
+1. 迭代法
+2. $z$变换法
+
+#### （2） 脉冲传递函数
+
+初始条件为零
+
+![image-20241026200158590](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20241026200158590.png)
+
+##### 1. 开环脉冲传递函数
+
++ 串联环节有无采样开关
+
++ 带有零阶保持器的情况
+
+  ![image-20241026203049315](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20241026203049315.png)
+  $$
+  G(z)=(1-z^{-1})Z\left[\frac{G_0(s)}{s}\right]
+  $$
+
+##### 2. 闭环脉冲传递函数或输出$z$变换【:star:】
+
+$$
+\Phi(z)=\frac{G(z)}{1+HG(z)}
+$$
+
+
+
+![image-20241026204018324](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20241026204018324.png)
+
+由结构图可知
+$$
+\begin{array}{c}
+C(s)=G(s) E^{*}(s) \\
+E(s)=R(s)-H(s) G(s) E^{*}(s)
+\end{array}
+$$
+离散化
+$$
+C^{*}(s)=G^{*}(s) E^{*}(s) \quad E^{*}(s)=R^{*}(s)-[H(s) G(s)]^{*} E^{*}(s)
+$$
+
+整理得
+
+代入
+$$
+\begin{array}{c}
+E^{*}(s)=\frac{R^{*}(s)}{1+[H(s) G(s)]^{*}} \\
+C^{*}(s)=G^{*}(s) E^{*}(s)=\frac{G^{*}(s)}{1+H G^{*}(s)} R^{*}(s)
+\end{array}
+$$
+
+
+##### 3. 误差脉冲传递函数或输出$z$变换
+
+### 四、 系统分析
+
+#### （1） 动态响应分析
+
+##### 1. $z$反变换，响应曲线【:star:】
+
+
+
+##### 2. 响应与零极点的位置关系
+
+闭环脉冲传递函数，及单位阶跃响应
+$$
+\Phi(z)=\frac{M(z)}{D(z)}=\frac{k\prod_{i=1}^m(z-z_i)}{\prod_{i=1}^n(z-p_i)}\quad n>m\\
+Y(z)=\Phi(z)R(z)=\frac{Az}{z-1}\sum_{i=1}^n\frac{B_iz}{z-p_i}\\
+y(kT)=A+\sum_{i=1}^nB_iP_i^k
+$$
+系统的瞬态响应分量为$\sum_{i=1}^nB_iP_i^k$
+
++ 实数极点
+
+![image-20241027131227141](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20241027131227141.png)
+
++ 共轭复数极点
+
+  $p_{i,i+1}=a\pm jb$
+
+  瞬态响应分量$y_i(kT)=A_i\lambda_i^k\cos(k\theta_i+\phi_i)$
+
+  其中$\lambda_i=\sqrt{a^2+b^2}{}=|p_i|\qquad \theta_i=\arctan{\frac{b}{a}}$
+
+  振荡角频率$\frac{\theta_i}{T}$
+
+![image-20241027134419990](https://gitee.com/passing-the-world-with-you/typora_pictures/raw/master/img/image-20241027134419990.png)
+
++ 总结：
+
+1. 综上所述，离散系统的动态特性与闭环极点的分布密切相关。
+2. 当闭环极点位于$z$平面的左半单位圆内的实轴上时，由于输出衰减脉冲交替变号，故动态过程质量很差。
+3. 当闭环复极点位于左半单位圆内时，由于输出是衰减的高频脉冲，故系统动态过程性能欠佳。
+4. 因此，在设计离散系统时，应把闭环极点配置在==$z$平面的右半单位圆内==，且尽量靠近原点。
+
+#### （2）稳定性分析
+
+###### ① 双线性变换法
+
+重点：$z=\frac{\omega+1}{\omega-1}$
+
+###### ② 朱利判据【:star:】
+
+1. $D(z)=a_0+a_1z+a_2z^2+\cdots+a_nz^n=0\qquad a_n>0$
+
+2. 计算到只剩3列
+
+3. $$
+   D(1)>0\qquad D(-1)=\left\{\begin{array}{}>0,\text{当}n\text{为偶数时}\\<0,\text{当}n\text{为奇数时}\end{array}\right.
+   $$
+
+4. $a_n>0$
+
+###### ③ $z$域根轨迹
+
+$|z_i|<1$
+
+#### （3） 稳态误差
+
+系统稳定
+
+##### 1. 终值定理
+
+$$
+e_{ss}(\infty)=\lim_{z\to1}(1-z^{-1})E(z)=\lim_{z\to1}(z-1)E(z)
+$$
+
+##### 2. 静态误差系数
+
+开环传递函数
+$$
+G(z)=\frac{K}{(z-1)^v}G_0(z)
+$$
+静态位置误差系数$K_{p}=\lim _{z \rightarrow 1} G(z)$
+
+
+静态速度误差系数$K_{v}=\lim _{z \rightarrow 1}(z-1) G(z)$
+
+
+静态加速度误差系数$K_{a}=\lim _{z \rightarrow 1}(z-1)^{2} G(z)$
+
+$$
+\begin{array}{|c|c|c|c|}
+\hline 系统型别 &  r(t)=R_{0} 1(t)  &  r(t)=R_{1} t  &  r(t)=\frac{R_{2}}{2} t^{2}  \\
+\hline 0 型 &  \frac{R_{0}}{1+K_{p}}  &  \infty  &  \infty  \\
+\hline 1 型 & 0 &  \frac{R_{1} T}{K_{v}}  &  \infty  \\
+\hline 2 型 & 0 & 0 &  \frac{R_{2} T^{2}}{K_{a}}  \\
+\hline
+\end{array}
+$$
